@@ -37,8 +37,9 @@ int WordCount::getTotalWords() const {
 }
 
 int WordCount::getNumUniqueWords() const {
-  // If a vector in the table contains at least one word, it adds to the total
+  
   int numUniqueWords = 0;
+  // If a vector in the table contains at least one word, it adds to the total
   for (int i = 0; i < 100; i++) {
     if (!(table[i].empty())){
       for (size_t j = 0; j < table[i].size(); j++) {
@@ -53,7 +54,7 @@ int WordCount::getNumUniqueWords() const {
 int WordCount::getWordCount(std::string word) const {
 
   int wordCount = 0;
-  // Makes the word all-lowercase and removes invalid symbols
+  // Makes the word valid
   std::string validWord = makeValidWord(word);
   int hashKey = hash(validWord);
   // If the word is not present, returns 0 
@@ -72,22 +73,24 @@ int WordCount::getWordCount(std::string word) const {
 int WordCount::incrWordCount(std::string word) {
 
   int wordCount = 0;
-  
-  // Makes the word all-lowercase and removes invalid symbols
+  // Makes the word valid
   std::string validWord = makeValidWord(word);
+  // Returns 0 if inputting empty string
   if (validWord == "")
     return 0;
-  if (!(validWord.empty())){
-    // Checks to see if the word is in the table
+  //if (!(validWord.empty())){
+  else {
     int hashKey = hash(validWord);
+    // Checks to see if the word is in the table
     for (size_t i = 0; i < table[hashKey].size(); i++){
       if (table[hashKey][i].first == validWord) {
+	// Increments and returns word count
 	wordCount = table[hashKey][i].second + 1;
 	table[hashKey][i].second += 1;
 	return wordCount;
       }
     }  
-    // Creates an entry in the table for the word
+    // If no word is found, creates an entry in the table for the word
     std::pair <std::string, int> newWord;
     newWord.first = validWord;
     newWord.second = 1;
@@ -100,28 +103,34 @@ int WordCount::incrWordCount(std::string word) {
 int WordCount::decrWordCount(std::string word) {
 
   int wordCount = 0;
-  // Makes the word all-lowercase and removes invalid symbols
+  // Makes the word valid
   std::string validWord = makeValidWord(word);
-  if (!(validWord.empty())){
+  if (validWord == "")
+    return 0;
+  else {
+  //if (!(validWord.empty())){
     int hashKey = hash(validWord);
     // Checks to see if the word is already in the table
     for (size_t i = 0; i < table[hashKey].size(); i++) {
       if (table[hashKey][i].first == validWord) {
 	int number = table[hashKey][i].second;
+	// If there is more than one word occurrence, decrements and returns
+	// word count
 	if (number > 1) {
 	  table[hashKey][i].second -= 1;
 	  wordCount = table[hashKey][i].second;
 	  return wordCount;
 	}
+	// If there is only one occurrence, deletes from table and returns 0
 	else {
 	  table[hashKey][i].second = 0;
-	  //table[hashKey][i].erase(table[hashKey][i].begin()+i);
 	  wordCount = 0;
 	  table[hashKey].erase(table[hashKey].begin()+i);
 	  return wordCount;
 	}
       }
     }
+  // If the word is not found, returns -1
   wordCount = -1;
   return wordCount;
   }
@@ -130,8 +139,10 @@ int WordCount::decrWordCount(std::string word) {
 bool WordCount::isWordChar(char c) {
 
   int x = 0;
+  // All usable chars (excluding "" (blank string)  and ' or - in the middle
+  // of the word) 
   char a[] = {'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N','o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z'};
-   // Returns true if c is a lowercase or uppercase letter only
+  // Returns true if c is a lowercase or uppercase letter only
   for (int i = 0; i < 52; i++){
     if (c == a[i])
       x = 1;
@@ -191,17 +202,44 @@ std::string WordCount::makeValidWord(std::string word) {
 }
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
-	// STUB
-	return "";
+
+  // Reads through every line in the hash table
+  for (int i = 0; i < 100; i++) {
+    for (size_t j = 0; j < table[i].size(); j++) {
+      
+      
+  
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
-	// STUB
-	return "";
+
+   // Reads through every line in the hash table
+  for (int i = 0; i < 100; i++) {
+    for (size_t j = 0; j < table[i].size(); j++) {
+  
 }
 
 void WordCount::addAllWords(std::string text) {
-	// STUB
-	return;
+
+  // Reads through entire text string letter by letter
+  for (int i = 0; i < text.length(); i++) {
+    std::string word;
+    // If the first character or few characters are white space, delete them
+    while((text[0] == ' ') || (text[0] == '\n') || (text[0] == '\t')){
+      text.erase(text.begin());
+    }
+    // Finds the end of a word and makes a substring containing that word
+    if ((text[i+1] == ' ') || (text[i+1] == '\n') || (text[i+1] == '\t')) {
+      if (i == 0)
+	word = text[i];
+      else
+	word = text.substr(0,i);
+      // Adds the word and deletes it from the string
+      incrWordCount(word);
+      text.erase(0,i);
+      // Resets to the new start of the string
+      i = 0;
+    }
+  }         
 }
 
