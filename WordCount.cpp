@@ -5,6 +5,7 @@
 #include <utility>
 #include <iostream>
 #include <string>
+#include <array>
 
 using namespace std;
 
@@ -37,9 +38,8 @@ int WordCount::getTotalWords() const {
 }
 
 int WordCount::getNumUniqueWords() const {
-  
-  int numUniqueWords = 0;
   // If a vector in the table contains at least one word, it adds to the total
+  int numUniqueWords = 0;
   for (int i = 0; i < 100; i++) {
     if (!(table[i].empty())){
       for (size_t j = 0; j < table[i].size(); j++) {
@@ -54,7 +54,7 @@ int WordCount::getNumUniqueWords() const {
 int WordCount::getWordCount(std::string word) const {
 
   int wordCount = 0;
-  // Makes the word valid
+  // Makes the word all-lowercase and removes invalid symbols
   std::string validWord = makeValidWord(word);
   int hashKey = hash(validWord);
   // If the word is not present, returns 0 
@@ -139,10 +139,8 @@ int WordCount::decrWordCount(std::string word) {
 bool WordCount::isWordChar(char c) {
 
   int x = 0;
-  // All usable chars (excluding "" (blank string)  and ' or - in the middle
-  // of the word) 
   char a[] = {'a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N','o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z'};
-  // Returns true if c is a lowercase or uppercase letter only
+   // Returns true if c is a lowercase or uppercase letter only
   for (int i = 0; i < 52; i++){
     if (c == a[i])
       x = 1;
@@ -203,20 +201,75 @@ std::string WordCount::makeValidWord(std::string word) {
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 
-  // Reads through every line in the hash table
+ // Initializes a vector that stores every word pair in the table
+  vector<std::pair<std::string, int>> temp;
+  // Reads through every element in the hash table
   for (int i = 0; i < 100; i++) {
     for (size_t j = 0; j < table[i].size(); j++) {
-      
-      
-  
+      // Adds every word to the array
+      temp.push_back(table[i][j]);
+    }
+  }
+
+  // Outputs every word in descending ASCII order
+  for (int x = 0; x < temp.size(); x++) {
+    // Variable representing the index of the word with the highest value
+    int max = 0;
+    if (temp.size() == 1)
+      max = 0;
+    if (temp.size() == 0)
+      return;
+    // Find the word with the highest ASCII value
+    for (int y = 0; y < temp.size(); y++) {
+      // If a word has a higher ASCII value, it becomes highest
+      if ((temp[y].first).compare(temp[max].first) > 0)
+	max = y;
+    }
+    
+    // Writes word and occurrences to ostream
+    out << temp[max].first << "," << temp[max].second << "\n";
+    // Deletes the word from array temp
+    temp.erase(temp.begin()+max);
+  }    
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 
-   // Reads through every line in the hash table
+  // Initializes a vector that stores every word pair in the table
+  vector<std::pair<std::string, int>> temp;
+  // Reads through every element in the hash table
   for (int i = 0; i < 100; i++) {
     for (size_t j = 0; j < table[i].size(); j++) {
-  
+      // Adds every word to the array
+      temp.push_back(table[i][j]);
+    }
+  }
+
+  // Outputs every word in ascending order of occurrences
+  for (int x = 0; x < temp.size(); x++) {
+    // Variable representing the index of the word of least occurrences
+    int min = 0;
+    if (temp.size() == 1)
+      min = 0;
+    if (temp.size() == 0)
+      return;
+    // Finds the word with least occurrences
+    for (int y = 0; y < temp.size(); y++) {
+      // If a word has a lower occurrence, it becomes the lowest
+      if (temp[y].second < temp[min].second)
+	min = y;
+      // If a word has the same occurrences, their ASCII values compare
+      else if (temp[y].second == temp[min].second) {
+	// If a word has a lower ASCII value, it becomes lowest
+	if ((temp[y].first).compare(temp[min].first) < 0)
+	  min = y;
+      }
+    }
+    // Writes word and occurrences to ostream
+    out << temp[min].first << "," << temp[min].second << "\n";
+    // Deletes the word from array temp
+    temp.erase(temp.begin()+min);
+  }
 }
 
 void WordCount::addAllWords(std::string text) {
@@ -242,4 +295,5 @@ void WordCount::addAllWords(std::string text) {
     }
   }         
 }
+
 
