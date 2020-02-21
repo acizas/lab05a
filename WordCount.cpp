@@ -212,7 +212,7 @@ void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
   }
 
   // Outputs every word in descending ASCII order
-  for (int x = 0; x < temp.size(); x++) {
+  for (size_t x = 0; x < temp.size(); x++) {
     // Variable representing the index of the word with the highest value
     int max = 0;
     if (temp.size() == 1)
@@ -220,7 +220,7 @@ void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
     if (temp.size() == 0)
       return;
     // Find the word with the highest ASCII value
-    for (int y = 0; y < temp.size(); y++) {
+    for (size_t y = 0; y < temp.size(); y++) {
       // If a word has a higher ASCII value, it becomes highest
       if ((temp[y].first).compare(temp[max].first) > 0)
 	max = y;
@@ -246,7 +246,7 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
   }
 
   // Outputs every word in ascending order of occurrences
-  for (int x = 0; x < temp.size(); x++) {
+  for (size_t x = 0; x < temp.size(); x++) {
     // Variable representing the index of the word of least occurrences
     int min = 0;
     if (temp.size() == 1)
@@ -254,7 +254,7 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
     if (temp.size() == 0)
       return;
     // Finds the word with least occurrences
-    for (int y = 0; y < temp.size(); y++) {
+    for (size_t y = 0; y < temp.size(); y++) {
       // If a word has a lower occurrence, it becomes the lowest
       if (temp[y].second < temp[min].second)
 	min = y;
