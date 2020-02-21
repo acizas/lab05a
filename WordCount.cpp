@@ -275,7 +275,7 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
 void WordCount::addAllWords(std::string text) {
 
   // Reads through entire text string letter by letter
-  for (int i = 0; i < text.length(); i++) {
+  for (size_t i = 0; i < text.length(); i++) {
     std::string word;
     // If the first character or few characters are white space, delete them
     while((text[0] == ' ') || (text[0] == '\n') || (text[0] == '\t')){
