@@ -162,7 +162,7 @@ std::string WordCount::makeValidWord(std::string word) {
     if (!(isWordChar(word[0])))
       return std::string();
     else {
-      word = tolower(word);
+      word[0] = tolower(word[0]);
       return word;
     }
   }
