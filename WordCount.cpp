@@ -303,11 +303,11 @@ void WordCount::addAllWords(std::string text) {
       incrWordCount(makeValidWord(word));
       text.erase(0,i);
       // Resets to the new start of the string
-      i = 0;
+      i = -1;
     }
     if (text[i] == text[text.length()-1]) {
-	word = text;
-	incrWordCount(makeValidWord(word));
+      word = makeValidWord(text);
+	incrWordCount(word);
       }
   }         
 }
