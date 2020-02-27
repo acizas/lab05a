@@ -75,6 +75,7 @@ int WordCount::incrWordCount(std::string word) {
   int wordCount = 0;
   // Makes the word valid
   std::string validWord = makeValidWord(word);
+  cout << validWord << endl;
   // Returns 0 if inputting empty string
   if (validWord == "")
     return 0;
@@ -201,6 +202,7 @@ std::string WordCount::makeValidWord(std::string word) {
 
 void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
 
+  cout << "Test: all words in dumpWordsSortedByWord" << endl;
  // Initializes a vector that stores every word pair in the table
   vector<std::pair<std::string, int>> temp;
   // Reads through every element in the hash table
@@ -208,9 +210,11 @@ void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
     for (size_t j = 0; j < table[i].size(); j++) {
       // Adds every word to the array
       temp.push_back(table[i][j]);
+      cout << table[i][j].first << endl;
     }
   }
 
+  cout << "Descending ASCII Values:" << endl;
   // Outputs every word in descending ASCII order
   for (size_t x = 0; x < temp.size(); x++) {
     // Variable representing the index of the word with the highest value
@@ -230,7 +234,12 @@ void WordCount::dumpWordsSortedByWord(std::ostream &out) const {
     out << temp[max].first << "," << temp[max].second << "\n";
     // Deletes the word from array temp
     temp.erase(temp.begin()+max);
-  }    
+    x = 0;
+  }
+  //for (size_t j = 0; j < temp.size(); j++)
+  //  if (temp[j].first == "-")
+  //    out << temp[j].first << "," << temp[j].second << "\n";
+   out << temp[0].first << "," << temp[0].second << "\n";
 }
 
 void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
@@ -242,9 +251,10 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
     for (size_t j = 0; j < table[i].size(); j++) {
       // Adds every word to the array
       temp.push_back(table[i][j]);
+        cout << table[i][j].first << endl;
     }
   }
-
+  cout << "Ascending Occurence Values:" << endl;
   // Outputs every word in ascending order of occurrences
   for (size_t x = 0; x < temp.size(); x++) {
     // Variable representing the index of the word of least occurrences
@@ -269,7 +279,9 @@ void WordCount::dumpWordsSortedByOccurence(std::ostream &out) const {
     out << temp[min].first << "," << temp[min].second << "\n";
     // Deletes the word from array temp
     temp.erase(temp.begin()+min);
+    x = 0;
   }
+  out << temp[0].first << "," << temp[0].second << "\n";
 }
 
 void WordCount::addAllWords(std::string text) {
@@ -282,7 +294,7 @@ void WordCount::addAllWords(std::string text) {
       text.erase(text.begin());
     }
     // Finds the end of a word and makes a substring containing that word
-    if ((text[i+1] == ' ') || (text[i+1] == '\n') || (text[i+1] == '\t')) {
+    if ((text[i] == ' ') || (text[i] == '\n') || (text[i] == '\t')) { 
       if (i == 0)
 	word = text[i];
       else
@@ -293,6 +305,10 @@ void WordCount::addAllWords(std::string text) {
       // Resets to the new start of the string
       i = 0;
     }
+    if (text[i] == text[text.length()-1]) {
+	word = text;
+	incrWordCount(word);
+      }
   }         
 }
 

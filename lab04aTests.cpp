@@ -8,6 +8,7 @@ int main() {
 
   WordCount testTable;
 
+  /*
     // Testing makeValidWord and isWordChar
   std::string test1 = "Apple3!";
   std::string test2 = "3456A";
@@ -74,8 +75,10 @@ int main() {
 
   // Official Test Cases
   cout << "#########################################################################" << endl;
-  cout << "Tests Part 2" << endl;
 
+  
+  cout << "Tests Part 2" << endl;
+  */
   WordCount table;
 
   std::string word1 = ".foo";
@@ -91,19 +94,54 @@ int main() {
   std::string word11 = "-";
 
   std::string vw1 = WordCount::makeValidWord(word1);
+  cout << vw1 << endl;
   std::string vw2 = WordCount::makeValidWord(word2);
+  cout << vw2 << endl;
   std::string vw3 = WordCount::makeValidWord(word3);
+  cout << vw3 << endl;
   std::string vw4 = WordCount::makeValidWord(word4);
+  cout << vw4 << endl;
   std::string vw5 = WordCount::makeValidWord(word5);
+  cout << vw5 << endl;
   std::string vw6 = WordCount::makeValidWord(word6);
+  cout << vw6 << endl;
   std::string vw7 = WordCount::makeValidWord(word7);
+  cout << vw7 << endl;
   std::string vw8 = WordCount::makeValidWord(word8);
+  cout << vw8 << endl;
   std::string vw9 = WordCount::makeValidWord(word9);
+  cout << vw9 << endl;
   std::string vw10 = WordCount::makeValidWord(word10);
-  std::string vw11 = WordCount::makeValidWord(word11);
-
-  assertTrue( (table.incrWordCount("--$$--") == 0), "--$$-- appears 0 times", -1);
- 
+  cout << vw10 << endl;
+  //std::string vw11 = WordCount::makeValidWord(word11);
+  //cout << vw11 << endl;
+  cout << "Valid Word Outputs" << endl;
   
+  assertTrue( (table.incrWordCount("--$$--") == 0), "--$$-- appears 0 times", -1);
+
+  table.incrWordCount(vw1);
+  table.incrWordCount(vw2);
+  table.incrWordCount(vw3);
+  table.incrWordCount(vw4);
+  table.incrWordCount(vw5);
+  table.incrWordCount(vw6);
+  table.incrWordCount(vw7);
+  table.incrWordCount(vw8);
+  table.incrWordCount(vw9);
+  table.incrWordCount(vw10);
+  //table.incrWordCount(vw11);
+  table.incrWordCount(vw1);
+  table.incrWordCount(vw1);
+  table.incrWordCount(vw2);
+  table.incrWordCount(vw3);
+
+  table.addAllWords("Hello my name is Andrew");
+
+  table.WordCount::dumpWordsSortedByWord(cout);
+
+  cout << "dumpWordsSortedByOccurence" << endl;
+
+  table.WordCount::dumpWordsSortedByOccurence(cout);
+
   
 }

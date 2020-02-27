@@ -8,8 +8,12 @@ CXX=g++
 lab04aTests: lab04aTests.o WordCount.o tddFuncs.o
 	${CXX} $^ -o $@
 
-tests: lab04aTests
+lab05aTests: lab05aTests.o WordCount.o tddFuncs.o
+	${CXX} $^ -o $@
+
+tests: Tests
 	./lab04aTests
+	./lab05aTests
 
 clean:
 	/bin/rm -f *.o
